@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>QR Code Scanner</title>
+    <script src="./node_modules/html5-qrcode/html5-qrcode.min.js"></script>
+    <style>
+      /* Reset some default styles */
+      body,
+      h1 {
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        background-color: #262a2f;
+        font-family: Arial, sans-serif;
+        color: #333; /* Dark gray text color */
+        overflow: hidden;
+      }
+
+      header {
+        background-color: #0073e6; /* Blue header */
+        padding: 20px;
+        text-align: center;
+      }
+
+      h1 {
+        font-size: 1.5rem;
+        color: #fff; /* White text color */
+      }
+
+      main {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        min-height: 100vh;
+      }
+
+      #reader-container {
+        background-color: #fff; /* White container background */
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin-bottom: 90px;
+      }
+
+      #reader {
+        width: 250px;
+        height: 250px;
+        margin-bottom: 20px;
+      }
+
+      #result {
+        text-align: center;
+        font-size: 1.5rem;
+        color: #333;
+        margin-top: 20px;
+      }
+
+      a {
+        color: #0073e6;
+        text-decoration: none;
+      }
+
+      a:hover {
+        text-decoration: underline;
+      }
+
+      #success {
+        color: #00cc00;
+      }
+
+      @media (max-width: 768px) {
+        main {
+          flex-direction: column;
+        }
+
+        #reader-container {
+          margin-top: 20px;
+        }
+
+        #reader {
+          width: 200px;
+          height: 200px;
+        }
+      }
+
+      footer {
+        background-color: #0073e6; /* Blue footer */
+        text-align: center;
+        color: #fff; /* White text color */
+        padding: 5px;
+        position: sticky;
+        bottom: 0;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>QR Code Scanner</h1>
+    </header>
+    <main>
+      <div id="reader-container">
+        <div id="reader"></div>
+      </div>
+      <div id="result"></div>
+    </main>
+    <footer>
+      <p>&copy; 2023 Benarbia Yousef. All rights reserved.</p>
+    </footer>
+
+    <script>
+      const scanner = new Html5QrcodeScanner("reader", {
+        qrbox: {
+          width: 250,
+          height: 250,
+        },
+        fps: 20,
+      });
+
+      scanner.render(success, error);
+
+      function success(result) {
+        document.getElementById("result").innerHTML = `
+                <h2 id="success">Success</h2>
+                <p><a href="${result}">${result}</a></p>
+            `;
+        scanner.clear();
+        document.getElementById("reader").remove();
+      }
+
+      function error(err) {
+        console.error(err);
+      }
+    </script>
+  </body>
+</html>
